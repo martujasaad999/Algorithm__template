@@ -1,0 +1,273 @@
+////////////////reading/ outputting////////////////////////
+#ifndef ONLINE_JUDGE		
+	freopen("read.in", "r", stdin);
+	freopen("read.out", "w", stdout);
+#endif			
+
+////////////////balanced substring checker/////////////////
+bool regularBraces(string s){
+	int imbalance=0;
+	for(int a=0;a<s.size();a++){
+		if(s[a]=='(')imbalance++;
+		else if(s[a]==')'){
+			if(!imbalance)return 0;
+			imbalance--;
+		}		
+	}
+	return !imbalance;
+}
+
+/////////////unique sequence maker(1110011 becomes 101)//////////////
+string makeUnique(string s){
+	string res=s;
+	res.resize(unique(all(res))-res.begin());	
+	return res;
+}
+vint makeUnique(vint v){
+	vint vct(all(v));
+	vct.resize(unique(all(vct))-vct.begin());
+	return vct;
+}
+
+/////////////square root method, for primes//////////////////////
+bool isPrime(ll n){ //O root(n) complexity
+	for(ll a=2;a*a<=n;a++){
+		if(n%a==0){
+			return 0;
+		}
+	}
+	return 1;
+}
+
+//////////////////matrix multiplication//////////////////////
+#define N 50
+void mat_mul(ll mat[N][N],ll mat2[N][N],ll r1,ll c1,ll c2){
+	ll md = 1e9+7;
+	ll mul[N][N];
+	for(int a=0;a<r1;a++){//fixing row
+		for(int c=0;c<c2;c++){//iterating thru all cols of that row
+			ll tmp=0;
+			for(int r=0;r<c1;r++){//iterating thru rows another matrix's col
+				ll res=(mat2[r][c]*mat[a][r])%md;
+				tmp=(tmp+res)%md;
+			}
+			mul[a][c]=tmp;
+		}
+	}
+	for(int a=0;a<r1;a++){
+		for(int b=0;b<c1;b++){
+			mat[a][b]=mul[a][b];
+		}
+	}
+}
+
+//////////////////////////sieve/////////////////////////////
+const int sz=1e6;
+vector<bool>composite(sz,0);
+vector<int>prm;
+void sieve(){ //complexity: O{n(log(logn))}, must be called b4 the "tc line"!
+	composite[0]=1,composite[1]=1;
+	for(int a=2;a*a<sz;a++){
+		if(!composite[a]){
+			for(int b=a*a;b<sz;b+=a){
+				composite[b]=1;
+			}
+		}
+	}
+	for(int a=1;a<sz;a++){
+		if(!composite[a])prm.push_back(a);
+	}
+}
+
+/////////////Precise mod///////////////////
+int mod(ll b,ll m){
+	return ((b%m)+m)%m;
+}
+
+////////////////////Binary_exponentiation/////////////////////
+vector<int> big_pow2(ll base,ll mod,ll sz=1e5+5){		
+	//please precompute it by writing above tc line!
+	vint vals(sz,0);
+	vals[0]=1;
+	for(int i=1;i<sz;i++) 
+		vals[i] = (vals[i-1]*base) % mod;	
+	return vals;
+}
+ll bigPow(ll base,ll power,ll mod){
+	ll mul=1;
+	while(power>0){                            
+		if((power&1))mul=(mul*base)%mod;
+		base=(base*base)%mod;
+		power>>=1;       
+	}
+	return mul;
+}
+/*
+1.	when the bit of power is set, only then base will be multiplied to mul (output)
+2.	but despite of power but being 0 or 1, base needs to be multiplied to 
+   	update it's position with respect to power's shifting
+*/
+
+////////modular_arithmatics/////////
+ll modMul(vector<ll>values,ll mod){
+	ll n=values.size(),x1=values[0]%mod;
+	for(int a=1;a<n;a++){
+		x1=(x1*(values[a]%mod))%mod;
+	}
+	return x1;
+}
+ll modSum(vector<ll>values,ll mod){
+	ll n=values.size(),x1=values[0]%mod;
+	for(int a=1;a<n;a++){
+		x1=(x1+(values[a]%mod))%mod;
+	}
+	return x1;
+}
+ll modMin(vector<ll>values,ll mod){
+	ll n=values.size(),x1=values[0]%mod;
+	for(int a=1;a<n;a++){
+		x1=(x1-(values[a]%mod)+mod)%mod;
+	}
+	return x1;
+}
+ll modDiv(int a,int b,ll mod){
+	ll mul=1;
+	ll base=b,power=mod-2;
+	while(power>0){                            
+		if((power&1))mul=(mul*base)%mod;
+		base=(base*base)%mod;
+		power>>=1;       
+	}			
+	int bp=mul%mod;
+	int res=((a%mod)*(bp%mod))%mod;
+	return res;
+}
+// main formula = (a/b) % mod = ( a * pow(b,mod-2) ) % mod
+// This is gonna work only if the mod is a prime number (e.g. 1e9+7)
+
+int fct(int n,int md){
+	int res=1;
+	fr(a,1,n+1){
+		res=modMul({res,a},md);
+	}
+	return res;
+}
+
+///////////check all subarrays////////////
+fre(a,1,n){
+	vint tmp;
+	for(int l=0,b=0;b+(a-1)<n;b++){
+		if(b<a-1)tmp.push_back(vct[b]);
+		else{
+			if(b-l+1==a){
+				int dn=0;
+				
+				//checker stuffs here
+
+				tmp.erase(vct.begin()+l);l++;
+			}
+			else tmp.push_back(vct[b]);
+		}
+	}
+}
+//////////////////DFS/////////////////////////////
+void dfs(int src,vector<vint>&adj,vint &vis){    
+    vis[src]=1;    
+    for(int a=0;a<adj[src].size();a++){
+        if(vis[adj[src][a]]==0){
+            dfs(adj[src][a],adj,vis);
+        }
+    }
+    vis[src]=2;
+}
+
+/////////////////quick_sort//////////////////////
+void qsrt(int l,int r,vector<int>& ara){
+    if(l>=r)return;
+    int x=l+rand()%(r-l+1);
+    swap(ara[x],ara[r]);
+    int p=ara[r];
+    int x=l;
+    for(int i=l;i<r;i++){
+        if(ara[i]<p)swap(ara[x++],ara[i]);
+    }
+    swap(ara[x],ara[r]);
+    qsrt(l,x-1,ara);
+    qsrt(x+1,r,ara);
+}
+
+////////////////////2d_diffrence_array/////////////////////////////////////
+diff[r1][c1]     += v;				//(r1,c1) top left corner
+diff[r2 + 1][c1] -= v;				//(r2,c2) bottom right corner
+diff[r1][c2 + 1] -= v;
+diff[r2 + 1][c2 + 1] += v;
+
+
+
+/////////index_shift_when_a_2d_array_rotates_90deg_clockwise//////////////
+ara[i][j] = ara[j][n−1−i] 
+
+
+////////////////2d_prefix_sum/////////////////////////////////////////////
+v2d vct(n,vint(n,0));		
+
+//prefix_sum_table
+fr(a,0,n){	
+	fr(b,0,n){		
+		if(b-1>=0)vct[a][b]+=vct[a][b-1];
+		if(a-1>=0)vct[a][b]+=vct[a-1][b];
+		if(b-1>=0&&a-1>=0)vct[a][b]-=vct[a-1][b-1];//avoid overadding
+	}
+}
+
+//showing_results_based_on_queries
+fr(a,0,q){
+	int xa,xb,ya,yb;cin>>ya>>xa>>yb>>xb;
+	xa--,xb--,ya--,yb--;	//typically they give 1 based coordinates
+	int res=vct[yb][xb];
+	if(xa-1>=0)res-=vct[yb][xa-1];
+	if(ya-1>=0)res-=vct[ya-1][xb];
+	if(xa-1>=0&&ya-1>=0)res+=vct[ya-1][xa-1];	//avoid overreducing
+	cout<<res<<'\n';
+}
+
+//doin all moves possible, for container size of 5
+int x=vct.size();
+fr(a,0,x){
+	set<int>st{a};
+	fr(b,0,x){
+		st.insert(b)
+		if(st.size()!=2)continue;
+
+		fr(c,0,x){
+			st.insert(c)
+			if(st.size()!=3)continue;		
+
+			fr(d,0,x){
+				st.insert(d)
+				if(st.size()!=4)continue;
+
+				fr(e,0,x){
+					st.insert(e)
+					if(st.size()!=5)continue;
+
+				}
+			}
+		}	
+	}
+}
+
+///////////////////////custom_hash/////////////////////////////
+//faster than map, safer than unordered_map
+struct custom_hash{ 
+    static uint64_t splitmix64(uint64_t x){
+        x+=0x9e3779b97f4a7c15;x=(x^(x>>30))*0xbf58476d1ce4e5b9;x=(x^(x>>27))*0x94d049bb133111eb;
+        return x^(x>>31);
+    }
+    size_t operator()(uint64_t x) const{
+        static const uint64_t FIXED_RANDOM=chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x+FIXED_RANDOM);
+    }
+};
+
+// example: unordered_map<long long, int, custom_hash> mp;
