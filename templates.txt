@@ -154,7 +154,7 @@ int fct(int n,int md){
 }
 
 ///////////check all subarrays////////////
-fre(a,1,n){
+for(int a=1;a<n;a++){
 	vint tmp;
 	for(int l=0,b=0;b+(a-1)<n;b++){
 		if(b<a-1)tmp.push_back(vct[b]);
@@ -180,6 +180,24 @@ void dfs(int src,vector<vint>&adj,vint &vis){
     }
     vis[src]=2;
 }
+
+//////////////////BFS/////////////////////////////
+queue<int>q;
+vint dist(n+1,1e9);
+int s=1; //src
+dist[s]=0;
+q.push(s);
+while(q.size()){
+	int u=q.front();q.pop();
+	for(auto v:adj[u]){
+		if(dist[v]==1e9){
+			dist[v]=dist[u]+1;
+			q.push(v);
+		}
+	}
+}
+int tg=4; //destination
+int res=dist[tg];
 
 /////////////////quick_sort//////////////////////
 void qsrt(int l,int r,vector<int>& ara){
@@ -234,23 +252,11 @@ fr(a,0,q){
 //doin all moves possible, for container size of 5
 int x=vct.size();
 fr(a,0,x){
-	set<int>st{a};
-	fr(b,0,x){
-		st.insert(b)
-		if(st.size()!=2)continue;
-
-		fr(c,0,x){
-			st.insert(c)
-			if(st.size()!=3)continue;		
-
-			fr(d,0,x){
-				st.insert(d)
-				if(st.size()!=4)continue;
-
+	fr(b,0,x){				
+		fr(c,0,x){						
+			fr(d,0,x){				
 				fr(e,0,x){
-					st.insert(e)
-					if(st.size()!=5)continue;
-
+					set<int>st{a,b,c,d,e};
 				}
 			}
 		}	
