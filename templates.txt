@@ -199,6 +199,21 @@ while(q.size()){
 int tg=4; //destination
 int res=dist[tg];
 
+
+////////////////////DSU///////////////////////////
+int n;
+vint par(n+1),sz(n+1,1);
+int find(int u){
+	while(par[u]!=u)u=par[u];
+	return par[u];
+}
+void unite(int u,int v){
+	int pu=find(u),pv=find(v);
+	if(sz[pu]<sz[pv])swap(pu,pv);
+	sz[pu]+=sz[pv];
+	par[pv]=pu;
+}
+
 /////////////////quick_sort//////////////////////
 void qsrt(int l,int r,vector<int>& ara){
     if(l>=r)return;
@@ -213,6 +228,36 @@ void qsrt(int l,int r,vector<int>& ara){
     qsrt(l,x-1,ara);
     qsrt(x+1,r,ara);
 }
+
+/////////////////merge_sort//////////////////////
+vector<int>tmp(1000),ara;
+void srtnmrg(int l,int r,int mid){//sort n' merge =srtnmrg
+    int i=l;
+    int a=l,b=mid+1;
+    while(1){
+        if(a<=mid&&b<=r){
+            if(ara[b]<ara[a])tmp[i++]=ara[b++];
+            else tmp[i++]=ara[a++];
+        }
+        else if(b>r&&a<=mid)tmp[i++]=ara[a++];
+        else if(a>mid&&b<=r)tmp[i++]=ara[b++];
+        else break;
+    }
+    for(int x=l;x<=r;x++){
+        ara[x]=tmp[x];
+        cout<<ara[x]<<' ';
+    }
+    cout<<'\n';
+}
+void dv(int l,int r){
+    if(l==r)return;
+    int mid=(l+r)/2;
+     
+    dv(l,mid);//makes left hand
+    dv(mid+1,r);//makes right hand
+    srtnmrg(l,r,mid);//merges and after that backtrack happens
+}
+
 
 ////////////////////2d_diffrence_array/////////////////////////////////////
 diff[r1][c1]     += v;				//(r1,c1) top left corner
