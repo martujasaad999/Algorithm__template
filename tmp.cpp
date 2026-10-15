@@ -37,15 +37,13 @@ typedef vector<vector<int>>         v2d;   typedef vector<pair<int,int>>       v
 #define fr(_a,aval,_n)              for(int _a=aval;_a<(int)_n;_a++)
 #define frv(_a,aval,endval)         for(int _a=aval;_a>=(int)endval;_a--)
 #define all(_v)                     _v.begin(),_v.end()
-#define quit(dn,val)                dn=val;break;
 
 int32_t main(){
 	#ifdef ONLINE_JUDGE
 		fastio;
 	#endif
 	#ifndef ONLINE_JUDGE
-		freopen("read.in", "r", stdin);
-		freopen("read.out", "w", stdout);
+		freopen("read.in", "r", stdin);freopen("read.out", "w", stdout);
 		static LimitedStreambuf limiter(cout.rdbuf(),4*1024*1024);cout.rdbuf(&limiter);
 	#endif
 	// int tcc;tcc=1;
@@ -54,8 +52,8 @@ int32_t main(){
 		#ifndef ONLINE_JUDGE
 			cout<<"Testcase : "<<ttt<<'\n';
 		#endif
-		//---------------------------------------------------------------------------------------//		
-		
+		//---------------------------------------------------------------------------------------//
+				
 		//---------------------------------------------------------------------------------------//
 		#ifndef ONLINE_JUDGE
 		//---------------------------------------------------------------------------------------//						
