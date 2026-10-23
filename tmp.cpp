@@ -36,7 +36,8 @@ typedef vector<vector<int>>         v2d;   typedef vector<pair<int,int>>       v
 #define voutr(_v,_l,_r)             for(int _a=_l;_a<=(int)_r;_a++)cout<<_v[_a]<<' ';cout<<'\n';
 #define fr(_a,aval,_n)              for(int _a=aval;_a<(int)_n;_a++)
 #define frv(_a,aval,endval)         for(int _a=aval;_a>=(int)endval;_a--)
-#define all(_v)                     _v.begin(),_v.end()
+#define all(v)                      v.begin(),v.end()
+#define rng(v,l,r)                  v.begin()+(int)l,v.begin()+(int)(r+1)
 
 int32_t main(){
 	#ifdef ONLINE_JUDGE
@@ -52,8 +53,8 @@ int32_t main(){
 		#ifndef ONLINE_JUDGE
 			cout<<"Testcase : "<<ttt<<'\n';
 		#endif
-		//---------------------------------------------------------------------------------------//
-				
+		//---------------------------------------------------------------------------------------//				
+		
 		//---------------------------------------------------------------------------------------//
 		#ifndef ONLINE_JUDGE
 		//---------------------------------------------------------------------------------------//						
